@@ -4,34 +4,19 @@ using UnityEngine;
 
 public class RacketMovement : MonoBehaviour
 {
-    private int up = 1;
-    private int down = -1;
-    private bool isPressingUp;
-    
-    private bool isPressingDown;
+    [SerializeField]
+    private float speed = 10;
+    private float direction;
+    private Rigidbody2D racket;
     // Start is called before the first frame update
     void Start()
     {
-        
+        racket = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetAxisRaw("Vertical") == top){
-            isPressingUp = true;
-        }
-        if (Input.GetAxisRaw("Vertical") == down){
-            isPressingDown = true;
-        }
-    }
     void FixedUpdate(){
-        if (isPressingUp){
-
-            isPressingUp = false;
-        }
-        if (isPressingDown){
-            isPressingDown = false;
-        }
+        direction = Input.GetAxisRaw("Vertical");
+        racket.velocity = new Vector2(0, direction) * speed;
     }
 }
