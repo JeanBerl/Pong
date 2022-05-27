@@ -6,6 +6,8 @@ public class RacketMovement : MonoBehaviour
 {
     [SerializeField]
     private float speed = 10;
+    [SerializeField]
+    private string axis;
     private float direction = 0;
     private Rigidbody2D racket;
     // Start is called before the first frame update
@@ -15,7 +17,7 @@ public class RacketMovement : MonoBehaviour
     }
     // Update is called once per frame
     void Update(){
-        direction = Input.GetAxisRaw("Vertical");
+        direction = Input.GetAxisRaw(axis);
     }
     // Updates for physics
     void FixedUpdate(){
