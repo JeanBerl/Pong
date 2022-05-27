@@ -22,7 +22,8 @@ public class BallScript : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.tag == "Racket"){
             horizontalDirection *= -1;
-            VerticalDirection = RandomIntExceptOne(-1, 1, 0);
+            // VerticalDirection = RandomIntExceptOne(-1, 1, 0);
+            VerticalDirection = hitFactor(transform.position, collision.transform.position, collision.collider.bounds.size.y);
         }
         else if (collision.gameObject.tag == "Player1Wall"){
             Application.Quit();
@@ -33,13 +34,10 @@ public class BallScript : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
         }
         VerticalDirection *= -1;
+        Debug.Log(transform.position);
     }
 
-    public int RandomIntExceptOne( int min, int max, int except )
-    {
-        int result = Random.Range( min, max-1 );
-        // To avoid infinite loops:
-        if (result >= except) result += 1;
-        return result;
+    private float hitFactor(Vector2 bolaPos, Vector2 jogPos, float tam){
+	    return (bolaPos.y - jogPos.y)/tam;
     }
 }
