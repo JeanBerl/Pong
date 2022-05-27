@@ -8,8 +8,7 @@ public class BallScript : MonoBehaviour
     private float VerticalDirection = 0;
     private Rigidbody2D ball;
     // 1 When going to right and -1 when going to left
-    private float direction = 1;
-    private System.Random rnd = new System.Random();
+    private float horizontalDirection = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,12 +17,12 @@ public class BallScript : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate(){
-        ball.velocity = new Vector2(direction, VerticalDirection) * speed;
+        ball.velocity = new Vector2(horizontalDirection, VerticalDirection) * speed;
     }
     void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.tag == "Racket"){
-            direction *= -1;
-            VerticalDirection = rnd.Next(-2, 2);
+            horizontalDirection *= -1;
+            VerticalDirection = RandomIntExceptOne(-1, 1, 0);
         }
         else if (collision.gameObject.tag == "Player1Wall"){
             Application.Quit();
@@ -34,5 +33,13 @@ public class BallScript : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
         }
         VerticalDirection *= -1;
+    }
+
+    public int RandomIntExceptOne( int min, int max, int except )
+    {
+        int result = Random.Range( min, max-1 );
+        // To avoid infinite loops:
+        if (result >= except) result += 1;
+        return result;
     }
 }
